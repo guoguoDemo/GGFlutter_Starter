@@ -1,0 +1,69 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.32.8'
+        channel: 'stable'
+    
+    - name: Install dependencies
+      run: flutter pub get
+    
+    - name: Build APK
+      run: flutter build apk --release
+    
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: vending-machine-control-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+        retention-days: 30
+    
+    - name: Create Release
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/app/outputs/flutter-apk/app-release.apk
+        tag_name: v1.0.0
+        name: 自动售货机控制应用 v1.0.0
+        body: |
+          ## 自动售货机控制应用
+          
+          ### 功能特性
+          - 设备扫描和连接
+          - 串口参数配置
+          - 电机控制界面
+          - 数据监控显示
+          - 现代化UI设计
+          
+          ### 安装说明
+          1. 下载APK文件
+          2. 在Android设备上启用"未知来源"应用安装
+          3. 安装APK文件
+          
+          ### 系统要求
+          - Android 5.0+ (API 21)
+          - USB OTG支持
+          - 串口转USB适配器
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
