@@ -231,10 +231,45 @@ class _MotorControlWidgetState extends State<MotorControlWidget> {
                         spacing: 8,
                         runSpacing: 8,
                         children: [
-                          _buildQuickCommandButton('读取状态', '00 01 00 00 00 08 3D C9'),
-                          _buildQuickCommandButton('获取序列号', '00 03 00 00 00 01 84 0A'),
-                          _buildQuickCommandButton('Motor Scan', '00 05 00 00 FF 00 8C 3A'),
-                          _buildQuickCommandButton('读温度', '00 03 00 01 00 01 D5 CA'),
+                          // 状态读取
+                          _buildQuickCommandButton('读取通道1', '01 04 00 00 00 01 31 CA'),
+                          _buildQuickCommandButton('读取通道2', '01 04 00 01 00 01 60 0A'),
+                          _buildQuickCommandButton('读取通道3', '01 04 00 02 00 01 91 CA'),
+                          _buildQuickCommandButton('读取通道4', '01 04 00 03 00 01 C0 0A'),
+                          _buildQuickCommandButton('读取1-4通道', '01 04 00 00 00 04 70 09'),
+                          _buildQuickCommandButton('读取1-8通道', '01 04 00 00 00 08 B0 0C'),
+                          
+                          // 通道控制
+                          _buildQuickCommandButton('启动通道1', '01 06 00 00 00 01 48 0A'),
+                          _buildQuickCommandButton('停止通道1', '01 06 00 00 00 00 89 CA'),
+                          _buildQuickCommandButton('启动通道2', '01 06 00 01 00 01 19 CA'),
+                          _buildQuickCommandButton('停止通道2', '01 06 00 01 00 00 58 0A'),
+                          _buildQuickCommandButton('启动通道3', '01 06 00 02 00 01 E9 CA'),
+                          _buildQuickCommandButton('停止通道3', '01 06 00 02 00 00 A8 0A'),
+                          _buildQuickCommandButton('启动通道4', '01 06 00 03 00 01 B8 0A'),
+                          _buildQuickCommandButton('停止通道4', '01 06 00 03 00 00 F9 CA'),
+                          
+                          // 批量控制
+                          _buildQuickCommandButton('全部启动', '01 06 00 34 00 01 7A 0A'),
+                          _buildQuickCommandButton('全部停止', '01 06 00 34 00 00 3B CA'),
+                          _buildQuickCommandButton('控制1-16', '01 06 00 35 00 01 2B CA'),
+                          _buildQuickCommandButton('控制17-32', '01 06 00 36 00 01 1A 0A'),
+                          _buildQuickCommandButton('控制33-48', '01 06 00 37 00 01 4B CA'),
+                          
+                          // 参数设置
+                          _buildQuickCommandButton('设置地址2', '01 06 00 32 00 02 A9 C4'),
+                          _buildQuickCommandButton('设置地址3', '01 06 00 32 00 03 E8 04'),
+                          _buildQuickCommandButton('设置38400', '01 06 00 33 00 04 78 06'),
+                          _buildQuickCommandButton('设置115200', '01 06 00 33 00 07 39 C6'),
+                          _buildQuickCommandButton('断开10秒关', '01 06 00 30 00 64 88 2E'),
+                          _buildQuickCommandButton('断开30秒关', '01 06 00 30 00 12 89 6E'),
+                          
+                          // 工作模式
+                          _buildQuickCommandButton('普通模式', '01 06 00 96 00 00 6A 2E'),
+                          _buildQuickCommandButton('联动模式', '01 06 00 96 00 01 2B EE'),
+                          _buildQuickCommandButton('点动模式', '01 06 00 96 00 02 E8 0E'),
+                          _buildQuickCommandButton('开关循环', '01 06 00 96 00 03 A9 CE'),
+                          _buildQuickCommandButton('自动复位', '01 06 00 96 00 04 6A 0E'),
                         ],
                       ),
                     ],

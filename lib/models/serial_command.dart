@@ -87,14 +87,36 @@ class SerialCommand {
     );
   }
   
-  // 创建电机控制指令
-  factory SerialCommand.motorControl(int motorIndex, bool start, {int deviceAddress = 0x00}) {
+  // 创建电机控制指令（汇控电子模块）
+  factory SerialCommand.motorControl(int motorIndex, bool start, {int deviceAddress = 0x01}) {
     return SerialCommand(
       deviceAddress: deviceAddress,
-      functionCode: 0x05, // 写单个线圈
-      registerAddress: 0x031A + motorIndex,
-      data: start ? 0xFF00 : 0x0000,
-      description: '${start ? "启动" : "停止"}电机${motorIndex + 1}',
+      functionCode: 0x06, // 写单个保持寄存器
+      registerAddress: motorIndex, // 寄存器地址：0=通道1, 1=通道2, 2=通道3...
+      data: start ? 0x0001 : 0x0000, // 1=开启, 0=关闭
+      description: '${start ? "启动" : "停止"}通道${motorIndex + 1}',
+    );
+  }
+  
+  // 创建批量控制指令
+  factory SerialCommand.batchControl(bool start, {int deviceAddress = 0x01}) {
+    return SerialCommand(
+      deviceAddress: deviceAddress,
+      functionCode: 0x06, // 写单个保持寄存器
+      registerAddress: 0x34, // 40053寄存器：批量控制
+      data: start ? 0x0001 : 0x0000, // 1=全开, 0=全关
+      description: start ? '批量启动所有通道' : '批量停止所有通道',
+    );
+  }
+  
+  // 创建读取输入状态指令
+  factory SerialCommand.readInputStatus(int startChannel, int count, {int deviceAddress = 0x01}) {
+    return SerialCommand(
+      deviceAddress: deviceAddress,
+      functionCode: 0x04, // 读输入寄存器
+      registerAddress: startChannel, // 起始通道
+      data: count, // 读取数量
+      description: '读取通道${startChannel + 1}到${startChannel + count}的输入状态',
     );
   }
   
