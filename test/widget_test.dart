@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_app_template/main.dart';
+import 'package:ggflutter_starter/main.dart';
 
 void main() {
   testWidgets('HomeScreen has theme and language buttons', (WidgetTester tester) async {

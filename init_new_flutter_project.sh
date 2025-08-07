@@ -15,7 +15,7 @@ if [[ -z "$NEW_PROJECT" ]]; then
   exit 1
 fi
 
-read -rp "请输入模板原包名（如 com.example.flutter_app_template）: " OLD_PKG
+read -rp "请输入模板原包名（如 com.example.ggflutter_starter）: " OLD_PKG
 if [[ -z "$OLD_PKG" ]]; then
   echo "原包名不能为空！"
   exit 1
@@ -33,7 +33,7 @@ if [[ -z "$NEW_APPNAME" ]]; then
   exit 1
 fi
 
-cp -r flutter_app_template "$NEW_PROJECT"
+cp -r ggflutter_starter "$NEW_PROJECT"
 cd "$NEW_PROJECT" || exit 1
 
 export LC_CTYPE=UTF-8
@@ -43,8 +43,8 @@ echo "正在批量替换包名、项目名、App 名称..."
 
 for ext in dart kt java xml yaml gradle md sh json txt properties; do
   find . -type f -name "*.${ext}" -exec sed -i '' -e "s/$OLD_PKG/$NEW_PKG/g" {} +
-  find . -type f -name "*.${ext}" -exec sed -i '' -e "s/flutter_app_template/$NEW_PROJECT/g" {} +
-  find . -type f -name "*.${ext}" -exec sed -i '' -e "s/Flutter App Template/$NEW_APPNAME/g" {} +
+  find . -type f -name "*.${ext}" -exec sed -i '' -e "s/ggflutter_starter/$NEW_PROJECT/g" {} +
+  find . -type f -name "*.${ext}" -exec sed -i '' -e "s/GGFlutter Starter/$NEW_APPNAME/g" {} +
 done
 
 # 重命名Android包目录

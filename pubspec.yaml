@@ -1,5 +1,5 @@
-name: flutter_app_template
-description: 通用Flutter项目模板，适合快速开发新应用
+name: ggflutter_starter
+description: 现代化Flutter脚手架，适合开源和企业级应用
 version: 1.0.0+1
 
 environment:

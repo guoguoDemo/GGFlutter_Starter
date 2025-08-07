@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$(dirname "$0")/flutter_app_template" || exit 1
+cd "$(dirname "$0")/ggflutter_starter" || exit 1
 
 echo "正在清理业务相关文件..."
 
@@ -58,7 +58,7 @@ EOF
 
 # 自动更新 pubspec.yaml
 cat > pubspec.yaml <<EOF
-name: flutter_app_template
+name: ggflutter_starter
 description: 通用Flutter项目模板，适合快速开发新应用
 version: 1.0.0+1
 
