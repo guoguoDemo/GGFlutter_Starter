@@ -23,11 +23,14 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.32.8'
+        flutter-version: '3.19.0'
         channel: 'stable'
     
     - name: Install dependencies
       run: flutter pub get
+
+    - name: Generate launcher icons
+      run: flutter pub run flutter_launcher_icons:main
     
     - name: Build APK
       run: flutter build apk --release
@@ -35,7 +38,7 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: vending-machine-control-apk
+        name: ggflutter-starter-apk
         path: build/app/outputs/flutter-apk/app-release.apk
         retention-days: 30
     
@@ -44,16 +47,15 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: build/app/outputs/flutter-apk/app-release.apk
-        tag_name: v1.0.0
-        name: 自动售货机控制应用 v1.0.0
+        tag_name: ${{ github.ref_name }}
+        name: GGFlutter Starter v${{ github.ref_name }}
         body: |
-          ## 自动售货机控制应用
+          ## GGFlutter Starter
           
-          ### 功能特性
-          - 设备扫描和连接
-          - 串口参数配置
-          - 电机控制界面
-          - 数据监控显示
+          ### 主要特性
+          - 一键配置项目名、包名、App 名称、Logo
+          - 丰富通用功能演示
+          - Android/iOS 双端支持
           - 现代化UI设计
           
           ### 安装说明
@@ -63,7 +65,5 @@ jobs:
           
           ### 系统要求
           - Android 5.0+ (API 21)
-          - USB OTG支持
-          - 串口转USB适配器
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
