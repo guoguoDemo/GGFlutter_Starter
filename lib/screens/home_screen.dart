@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vending_machine_control/providers/serial_provider.dart';
-import 'package:vending_machine_control/widgets/device_list_widget.dart';
-import 'package:vending_machine_control/widgets/connection_widget.dart';
-import 'package:vending_machine_control/widgets/motor_control_widget.dart';
-import 'package:vending_machine_control/widgets/data_monitor_widget.dart';
+import '../providers/theme_provider.dart';
+import '../l10n/app_localizations.dart';
+import '../widgets/app_button.dart';
+import '../widgets/app_text_field.dart';
+import '../utils/toast.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,108 +13,62 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 4, vsync: this);
-    
-    // 初始化时扫描设备
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<SerialProvider>().scanDevices();
-    });
-  }
-  
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-  
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final local = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('自动售货机控制'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-        elevation: 2,
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          tabs: const [
-            Tab(icon: Icon(Icons.devices), text: '设备'),
-            Tab(icon: Icon(Icons.link), text: '连接'),
-            Tab(icon: Icon(Icons.settings), text: '控制'),
-            Tab(icon: Icon(Icons.monitor), text: '监控'),
+        title: Text(local.title),
+        actions: [
+          IconButton(
+            icon: Icon(themeProvider.themeMode == ThemeMode.dark ? Icons.dark_mode : Icons.light_mode),
+            onPressed: () {
+              themeProvider.toggleTheme(themeProvider.themeMode != ThemeMode.dark);
+            },
+            tooltip: local.theme,
+          ),
+          PopupMenuButton<Locale>(
+            icon: const Icon(Icons.language),
+            onSelected: (locale) => themeProvider.setLocale(locale),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: const Locale('zh'),
+                child: Text('中文'),
+              ),
+              PopupMenuItem(
+                value: const Locale('en'),
+                child: Text('English'),
+              ),
+            ],
+            tooltip: local.language,
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(local.hello, style: Theme.of(context).textTheme.headlineMedium),
+            const SizedBox(height: 32),
+            AppTextField(
+              hintText: '请输入内容',
+              controller: _controller,
+            ),
+            const SizedBox(height: 16),
+            AppButton(
+              text: '显示 Toast',
+              onPressed: () {
+                ToastUtil.show(context, _controller.text.isEmpty ? '请输入内容' : _controller.text);
+              },
+            ),
           ],
         ),
-        actions: [
-          Consumer<SerialProvider>(
-            builder: (context, provider, child) {
-              return IconButton(
-                icon: Icon(
-                  provider.isConnected ? Icons.wifi : Icons.wifi_off,
-                  color: provider.isConnected ? Colors.green : Colors.red,
-                ),
-                onPressed: () {
-                  if (provider.isConnected) {
-                    _showDisconnectDialog();
-                  }
-                },
-              );
-            },
-          ),
-        ],
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          DeviceListWidget(),
-          ConnectionWidget(),
-          MotorControlWidget(),
-          DataMonitorWidget(),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<SerialProvider>().scanDevices();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('正在扫描设备...')),
-          );
-        },
-        child: const Icon(Icons.refresh),
       ),
     );
   }
-  
-  void _showDisconnectDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('断开连接'),
-        content: const Text('确定要断开当前串口连接吗？'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('取消'),
-          ),
-          TextButton(
-            onPressed: () {
-              context.read<SerialProvider>().disconnect();
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('已断开连接')),
-              );
-            },
-            child: const Text('确定'),
-          ),
-        ],
-      ),
-    );
-  }
-} 
+}

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # 自动售货机控制应用 - Android构建脚本
 
@@ -15,16 +16,19 @@ if ! command -v adb &> /dev/null; then
     echo "警告: 未找到ADB，可能无法自动安装到设备"
 fi
 
-# 清理之前的构建
-echo "清理之前的构建..."
-flutter clean
-
-# 获取依赖
-echo "获取依赖..."
+echo "==== 获取依赖 ===="
 flutter pub get
 
-# 构建APK
-echo "构建APK..."
+echo "==== 代码格式化 ===="
+flutter format .
+
+echo "==== 静态分析 ===="
+flutter analyze
+
+echo "==== 运行测试 ===="
+flutter test
+
+echo "==== 构建 APK ===="
 flutter build apk --release
 
 # 检查构建结果

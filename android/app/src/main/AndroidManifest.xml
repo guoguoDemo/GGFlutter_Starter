@@ -8,7 +8,7 @@
     <uses-feature android:name="android.hardware.usb.host" />
     
     <application
-        android:label="自动售货机控制"
+        android:label="GGFlutter Starter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

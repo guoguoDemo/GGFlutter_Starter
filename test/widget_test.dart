@@ -7,24 +7,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:vending_machine_control/main.dart';
+import 'package:flutter_app_template/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('HomeScreen has theme and language buttons', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // 检查主题切换按钮
+    expect(find.byIcon(Icons.light_mode), findsOneWidget);
+    // 检查语言切换按钮
+    expect(find.byIcon(Icons.language), findsOneWidget);
+    // 检查多语言文本
+    expect(find.text('Flutter App Template').hitTestable(), findsOneWidget);
+    // 切换主题
+    await tester.tap(find.byIcon(Icons.light_mode));
     await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // 切换语言
+    await tester.tap(find.byIcon(Icons.language));
+    await tester.pump();
   });
 }

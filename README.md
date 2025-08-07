@@ -1,172 +1,86 @@
-# 自动售货机控制应用
+# GGFlutter Starter
 
-这是一个基于Flutter开发的Android应用，用于通过串口通信控制自动售货机设备。
+![logo](assets/gg_icon.svg)
 
-## 功能特性
+一个现代化、极简高效、可一键配置的 Flutter 脚手架，适合开源项目和企业级应用快速起步。
 
-- 🔍 **设备扫描**: 自动扫描可用的串口设备
-- 🔗 **串口连接**: 支持多种串口参数配置
-- 🎮 **电机控制**: 支持单个和批量电机控制
-- 📊 **实时监控**: 实时显示串口通信数据
-- 📱 **移动端**: 专为Android平板优化
+---
 
-## 系统要求
+## 🚀 特性亮点
+- 一键配置项目名、包名、App 名称、Logo（见 `init_new_flutter_project.sh`）
+- Android/iOS 双端 icon 自动生成（SVG/PNG 支持，`flutter_launcher_icons`）
+- 支持暗黑/明亮主题切换
+- 支持中英文国际化
+- go_router 路由统一管理
+- Provider 状态管理
+- dio 网络请求与异常处理封装
+- 丰富通用功能演示（登录、网络、图片、二维码、权限、缓存、Toast、Dialog、Loading、主题色切换等）
+- 目录结构清晰，易扩展
+- 开箱即用脚本和 CI 配置
+- 严格代码规范与自动化测试
 
-- Android 5.0 (API 21) 或更高版本
-- 支持USB OTG的Android设备
-- 串口转USB适配器
+## 🛠️ 快速开始
 
-## 安装说明
+1. **一键初始化项目**
+   ```bash
+   ./init_new_flutter_project.sh
+   # 按提示输入新项目名、包名、App 名称
+   ```
+2. **自定义 Logo**
+   - 将你的 icon（推荐 512x512 PNG）放到 `assets/gg_icon.png`
+   - 运行：
+     ```bash
+     flutter pub run flutter_launcher_icons:main
+     ```
+   - Android/iOS 双端 icon 自动生成
+3. **依赖安装 & 运行**
+   ```bash
+   flutter pub get
+   flutter run
+   ```
+4. **一键打包 APK**
+   ```bash
+   ./build_android.sh
+   ```
+5. **iOS 支持**
+   - 目录已自动补全，icon 替换同上
+   - 用 Xcode 打开 `ios/Runner.xcworkspace`，可直接打包
+   - 如遇 icon 透明通道警告，已自动处理
 
-### 1. 环境准备
+## 📁 目录结构
+- `lib/`：主代码目录，已预设常用结构（utils、widgets、providers、services、models、screens）
+- `android/`、`ios/`、`macos/`、`linux/`、`windows/`：多端原生配置
+- `assets/`：资源目录，含 logo/icon
+- `init_new_flutter_project.sh`：一键初始化脚本
+- `.github/`：CI 配置
+- `build_android.sh`、`quick_start.sh`：一键打包/开发脚本
+- `analysis_options.yaml`：代码规范
+- `test/`：自动化测试
 
-确保已安装以下工具：
-- Flutter SDK (3.0.0+)
-- Android Studio
-- Android SDK
-- ADB工具
+## 🧩 功能演示
+- 详见 `lib/screens/features_screen.dart`，所有常用功能一键体验
+- 主入口见 `lib/main.dart`，多语言、主题、路由、Provider 全集成
 
-### 2. 构建应用
+## 🧪 自动化测试
+- 所有核心功能均有 Widget 测试（见 `test/widget_test.dart`）
+- 一键运行：
+  ```bash
+  flutter test
+  ```
 
-```bash
-# 进入项目目录
-cd flutter_app
+## ⚙️ CI/CD
+- GitHub Actions 自动化（见 `.github/workflows/`）
+- 支持依赖安装、分析、测试、打包、产物上传
+- 可自定义发布流程
 
-# 获取依赖
-flutter pub get
+## 🤝 贡献指南
+- 欢迎 PR、Issue，建议遵循 [Flutter 官方代码规范](https://dart.dev/guides/language/analysis-options)
+- 代码风格见 `analysis_options.yaml`
+- 如有新功能/优化建议，欢迎提交
 
-# 构建APK
-flutter build apk --release
-```
+## 📄 License
+MIT
 
-### 3. 安装到设备
+---
 
-```bash
-# 连接Android设备
-adb devices
-
-# 安装APK
-adb install build/app/outputs/flutter-apk/app-release.apk
-```
-
-或者使用构建脚本：
-```bash
-chmod +x build_android.sh
-./build_android.sh
-```
-
-## 使用说明
-
-### 1. 设备连接
-
-1. 打开应用
-2. 点击"设备"标签页
-3. 点击刷新按钮扫描设备
-4. 选择要连接的串口设备
-5. 配置串口参数（波特率、数据位等）
-6. 点击"连接"
-
-### 2. 电机控制
-
-1. 点击"控制"标签页
-2. 选择要控制的电机编号
-3. 点击"启动电机"或"停止电机"
-4. 或使用"批量控制"功能
-
-### 3. 数据监控
-
-1. 点击"监控"标签页
-2. 查看实时接收的数据
-3. 数据会自动解析显示功能码和寄存器地址
-
-## 串口协议
-
-应用支持Modbus RTU协议：
-
-### 电机控制指令
-- **启动电机**: `00 05 [寄存器地址] FF 00 [CRC]`
-- **停止电机**: `00 05 [寄存器地址] 00 00 [CRC]`
-
-### 寄存器地址
-- 电机1: 0x031A
-- 电机2: 0x031B
-- 电机3: 0x031C
-- ...以此类推
-
-### 功能码
-- 0x01: 读线圈状态
-- 0x03: 读保持寄存器
-- 0x05: 写单个线圈
-- 0x06: 写单个寄存器
-
-## 权限说明
-
-应用需要以下权限：
-- `WRITE_EXTERNAL_STORAGE`: 串口设备访问
-- `READ_EXTERNAL_STORAGE`: 串口设备访问
-- `USB_PERMISSION`: USB设备权限
-
-## 故障排除
-
-### 1. 设备未检测到
-- 检查USB连接
-- 确认设备驱动已安装
-- 尝试重新插拔设备
-
-### 2. 连接失败
-- 检查串口参数设置
-- 确认设备未被其他程序占用
-- 检查设备权限
-
-### 3. 指令无响应
-- 检查设备地址是否正确
-- 确认指令格式符合协议要求
-- 查看监控页面的错误信息
-
-## 开发说明
-
-### 项目结构
-```
-lib/
-├── main.dart                 # 应用入口
-├── providers/               # 状态管理
-│   └── serial_provider.dart
-├── models/                  # 数据模型
-│   ├── serial_device.dart
-│   └── serial_command.dart
-├── services/               # 服务层
-│   └── serial_service.dart
-├── screens/                # 页面
-│   └── home_screen.dart
-├── widgets/                # 组件
-│   ├── device_list_widget.dart
-│   ├── connection_widget.dart
-│   ├── motor_control_widget.dart
-│   └── data_monitor_widget.dart
-└── utils/                  # 工具类
-    └── theme.dart
-```
-
-### 自定义开发
-
-如需添加新功能，可以：
-
-1. **添加新的指令类型**:
-   - 在 `SerialCommand` 类中添加新的工厂方法
-   - 在 `MotorControlWidget` 中添加对应的UI
-
-2. **扩展设备支持**:
-   - 在 `SerialCommunicationPlugin.kt` 中添加新的设备检测逻辑
-   - 更新 `isSerialDevice` 方法
-
-3. **修改UI界面**:
-   - 编辑对应的Widget文件
-   - 更新主题配置
-
-## 许可证
-
-本项目仅供内部使用，请勿外传。
-
-## 联系方式
-
-如有问题，请联系开发团队。 
+如需进一步定制或有疑问，欢迎在 Issues 区留言！

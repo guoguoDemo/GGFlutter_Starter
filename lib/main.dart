@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:vending_machine_control/providers/serial_provider.dart';
-import 'package:vending_machine_control/screens/home_screen.dart';
-import 'package:vending_machine_control/utils/theme.dart';
+import 'l10n/app_localizations.dart';
+import 'utils/theme.dart';
+import 'providers/theme_provider.dart';
+import 'routes/app_routes.dart';
 
 void main() {
-  runApp(const VendingMachineApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
-class VendingMachineApp extends StatelessWidget {
-  const VendingMachineApp({super.key});
-
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => SerialProvider()),
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return MaterialApp.router(
+      title: 'Flutter App Template',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeProvider.themeMode,
+      routerConfig: appRouter,
+      locale: themeProvider.locale,
+      supportedLocales: const [Locale('en'), Locale('zh')],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      child: MaterialApp(
-        title: '自动售货机控制',
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        home: const HomeScreen(),
-        debugShowCheckedModeBanner: false,
-      ),
     );
   }
-} 
+}
