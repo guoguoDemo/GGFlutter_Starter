@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../screens/main_tab_screen.dart';
-import '../screens/login_screen.dart';
-import '../screens/network_screen.dart';
-import '../screens/image_picker_screen.dart';
-import '../screens/qr_screen.dart';
-import '../screens/permission_screen.dart';
-import '../screens/cache_screen.dart';
-import '../screens/toast_screen.dart';
-import '../screens/dialog_screen.dart';
-import '../screens/loading_screen.dart';
-import '../screens/theme_screen.dart';
+import 'package:ggflutter_starter/screens/main_tab_screen.dart';
+import 'package:ggflutter_starter/screens/login_screen.dart';
+import 'package:ggflutter_starter/screens/network_screen.dart';
+import 'package:ggflutter_starter/screens/image_picker_screen.dart';
+import 'package:ggflutter_starter/screens/qr_screen.dart';
+import 'package:ggflutter_starter/screens/permission_screen.dart';
+import 'package:ggflutter_starter/screens/cache_screen.dart';
+import 'package:ggflutter_starter/screens/toast_screen.dart';
+import 'package:ggflutter_starter/screens/dialog_screen.dart';
+import 'package:ggflutter_starter/screens/loading_screen.dart';
+import 'package:ggflutter_starter/screens/theme_screen.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [

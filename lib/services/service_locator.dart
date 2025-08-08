@@ -1,7 +1,7 @@
-/// service_locator.dart
-///
-/// 服务注册与依赖注入扩展点。
-/// 可用于注册全局单例、第三方服务等。
+// service_locator.dart
+//
+// 服务注册与依赖注入扩展点。
+// 可用于注册全局单例、第三方服务等。
 
 final Map<String, dynamic> _serviceRegistry = {};
 

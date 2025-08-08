@@ -24,7 +24,6 @@ linter:
     prefer_single_quotes: true
     always_use_package_imports: true
     avoid_print: true
-    sort_pub_dependencies_on_import: true
     prefer_const_constructors: true
     prefer_final_locals: true
 

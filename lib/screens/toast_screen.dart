@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/toast.dart';
+import 'package:ggflutter_starter/utils/toast.dart';
 
 class ToastScreen extends StatelessWidget {
   const ToastScreen({super.key});

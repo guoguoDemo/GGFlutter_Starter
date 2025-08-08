@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'l10n/app_localizations.dart';
-import 'utils/theme.dart';
-import 'providers/theme_provider.dart';
-import 'routes/app_routes.dart';
+import 'package:ggflutter_starter/l10n/app_localizations.dart';
+import 'package:ggflutter_starter/utils/theme.dart';
+import 'package:ggflutter_starter/providers/theme_provider.dart';
+import 'package:ggflutter_starter/routes/app_routes.dart';
 
 void main() {
   runApp(

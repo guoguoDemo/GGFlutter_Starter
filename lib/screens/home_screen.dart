@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/theme_provider.dart';
-import '../l10n/app_localizations.dart';
-import '../widgets/app_button.dart';
-import '../widgets/app_text_field.dart';
-import '../utils/toast.dart';
+import 'package:ggflutter_starter/providers/theme_provider.dart';
+import 'package:ggflutter_starter/l10n/app_localizations.dart';
+import 'package:ggflutter_starter/widgets/app_button.dart';
+import 'package:ggflutter_starter/widgets/app_text_field.dart';
+import 'package:ggflutter_starter/utils/toast.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,14 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.language),
             onSelected: (locale) => themeProvider.setLocale(locale),
             itemBuilder: (context) => [
-              PopupMenuItem(
-                value: const Locale('zh'),
-                child: Text('中文'),
-              ),
-              PopupMenuItem(
-                value: const Locale('en'),
-                child: Text('English'),
-              ),
+                          const PopupMenuItem(
+              value: Locale('zh'),
+              child: Text('中文'),
+            ),
+            const PopupMenuItem(
+              value: Locale('en'),
+              child: Text('English'),
+            ),
             ],
             tooltip: local.language,
           ),

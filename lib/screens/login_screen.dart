@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_button.dart';
-import '../widgets/app_text_field.dart';
+import 'package:ggflutter_starter/widgets/app_button.dart';
+import 'package:ggflutter_starter/widgets/app_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,7 +20,9 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _loading = true);
     await Future.delayed(const Duration(seconds: 1));
     setState(() => _loading = false);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('登录成功（模拟）')));
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('登录成功（模拟）')));
+    }
   }
 
   @override

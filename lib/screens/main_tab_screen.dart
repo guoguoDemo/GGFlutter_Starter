@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
-import 'settings_screen.dart';
-import 'features_screen.dart';
+import 'package:ggflutter_starter/screens/home_screen.dart';
+import 'package:ggflutter_starter/screens/settings_screen.dart';
+import 'package:ggflutter_starter/screens/features_screen.dart';
 
 class MainTabScreen extends StatefulWidget {
   const MainTabScreen({super.key});
