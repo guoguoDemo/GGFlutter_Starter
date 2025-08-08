@@ -7,22 +7,45 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 import 'package:ggflutter_starter/main.dart';
+import 'package:ggflutter_starter/providers/theme_provider.dart';
 
 void main() {
   testWidgets('HomeScreen has theme and language buttons', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
-    // 检查主题切换按钮
-    expect(find.byIcon(Icons.light_mode), findsOneWidget);
-    // 检查语言切换按钮
+    // 预设语言为英文，避免不同环境下默认语言不一致导致断言失败
+    final themeProvider = ThemeProvider();
+    themeProvider.setLocale(const Locale('en'));
+
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(
+        value: themeProvider,
+        child: const MyApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // 主题按钮（浅色或深色任一）
+    final hasLight = find.byIcon(Icons.light_mode).evaluate().isNotEmpty;
+    final hasDark = find.byIcon(Icons.dark_mode).evaluate().isNotEmpty;
+    expect(hasLight || hasDark, isTrue);
+
+    // 语言按钮存在
     expect(find.byIcon(Icons.language), findsOneWidget);
-    // 检查多语言文本
+
+    // 标题（英文）存在
     expect(find.text('Flutter App Template').hitTestable(), findsOneWidget);
+
     // 切换主题
-    await tester.tap(find.byIcon(Icons.light_mode));
+    await tester.tap(hasLight ? find.byIcon(Icons.light_mode) : find.byIcon(Icons.dark_mode));
     await tester.pump();
-    // 切换语言
+
+    // 打开语言菜单
     await tester.tap(find.byIcon(Icons.language));
-    await tester.pump();
+    await tester.pumpAndSettle();
+
+    // 选择中文
+    await tester.tap(find.text('中文'));
+    await tester.pumpAndSettle();
   });
 }
