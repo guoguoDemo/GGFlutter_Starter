@@ -14,6 +14,11 @@ Because ggflutter_starter depends on flutter_localizations from sdk which depend
 So, because ggflutter_starter depends on intl ^0.20.2, version solving failed.
 ```
 
+以及device_info_plus版本冲突：
+```
+Because device_info_plus 11.5.0 requires SDK version >=3.7.0 <4.0.0 and no versions of device_info_plus match >11.5.0 <12.0.0, device_info_plus ^11.5.0 is forbidden.
+```
+
 ## 🔍 问题分析
 
 1. **版本兼容性问题**：
@@ -25,6 +30,7 @@ So, because ggflutter_starter depends on intl ^0.20.2, version solving failed.
    - Flutter版本过低，导致Dart SDK版本不满足要求
    - `flutter_lints`版本过高，不兼容当前的Dart SDK
    - `intl`版本冲突，Flutter SDK要求特定版本
+   - `device_info_plus`版本过高，不兼容Dart 3.4.0
 
 ## ✅ 修复方案
 
@@ -46,7 +52,14 @@ dependencies:
   # 移除 intl: ^0.20.2，让Flutter SDK自动管理
 ```
 
-### 3. 使用稳定的 Flutter 版本
+### 3. 降级 `device_info_plus` 版本
+```yaml
+# pubspec.yaml
+dependencies:
+  device_info_plus: ^10.0.0  # 从 ^11.5.0 降级
+```
+
+### 4. 使用稳定的 Flutter 版本
 ```yaml
 # .github/workflows/build_apk.yml
 - name: Install Flutter
@@ -67,9 +80,10 @@ dependencies:
 | 组件 | 修复前 | 修复后 | 说明 |
 |------|--------|--------|------|
 | flutter_lints | ^5.0.0 | ^4.0.0 | 兼容Dart 3.3.0+ |
+| device_info_plus | ^11.5.0 | ^10.0.0 | 兼容Dart 3.4.0+ |
 | Flutter (build_apk.yml) | 3.24.0 | 3.22.0 | 使用稳定版本 |
 | Flutter (flutter_ci.yml) | 3.19.0 | 3.22.0 | 统一版本 |
-| Dart SDK | 3.3.0 | 3.3.0+ | 满足flutter_lints要求 |
+| Dart SDK | 3.3.0 | 3.3.0+ | 满足所有依赖要求 |
 
 ## 🧪 测试结果
 
@@ -93,6 +107,7 @@ dependencies:
 1. **pubspec.yaml**
    - 降级 `flutter_lints` 到 `^4.0.0`
    - 移除显式 `intl` 依赖
+   - 降级 `device_info_plus` 到 `^10.0.0`
 
 2. **lib/l10n/app_localizations.dart**
    - 移除未使用的 `intl` 导入
