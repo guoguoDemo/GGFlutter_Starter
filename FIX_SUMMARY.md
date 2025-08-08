@@ -8,6 +8,12 @@ The current Dart SDK version is 3.3.0.
 Because no versions of flutter_lints match >5.0.0 <6.0.0 and flutter_lints 5.0.0 requires SDK version ^3.5.0, flutter_lints ^5.0.0 is forbidden.
 ```
 
+以及intl版本冲突：
+```
+Because ggflutter_starter depends on flutter_localizations from sdk which depends on intl 0.19.0, intl 0.19.0 is required.
+So, because ggflutter_starter depends on intl ^0.20.2, version solving failed.
+```
+
 ## 🔍 问题分析
 
 1. **版本兼容性问题**：
@@ -18,6 +24,7 @@ Because no versions of flutter_lints match >5.0.0 <6.0.0 and flutter_lints 5.0.0
 2. **根本原因**：
    - Flutter版本过低，导致Dart SDK版本不满足要求
    - `flutter_lints`版本过高，不兼容当前的Dart SDK
+   - `intl`版本冲突，Flutter SDK要求特定版本
 
 ## ✅ 修复方案
 
@@ -30,7 +37,16 @@ dev_dependencies:
   flutter_lints: ^4.0.0  # 从 ^5.0.0 降级
 ```
 
-### 2. 使用稳定的 Flutter 版本
+### 2. 移除显式 `intl` 依赖
+```yaml
+# pubspec.yaml
+dependencies:
+  flutter_localizations:
+    sdk: flutter
+  # 移除 intl: ^0.20.2，让Flutter SDK自动管理
+```
+
+### 3. 使用稳定的 Flutter 版本
 ```yaml
 # .github/workflows/build_apk.yml
 - name: Install Flutter
@@ -76,14 +92,18 @@ dev_dependencies:
 
 1. **pubspec.yaml**
    - 降级 `flutter_lints` 到 `^4.0.0`
+   - 移除显式 `intl` 依赖
 
-2. **.github/workflows/build_apk.yml**
+2. **lib/l10n/app_localizations.dart**
+   - 移除未使用的 `intl` 导入
+
+3. **.github/workflows/build_apk.yml**
    - 使用稳定的 Flutter `3.22.0`
 
-3. **.github/workflows/flutter_ci.yml**
+4. **.github/workflows/flutter_ci.yml**
    - 使用稳定的 Flutter `3.22.0`
 
-4. **pubspec.lock**
+5. **pubspec.lock**
    - 自动更新以匹配新的依赖版本
 
 ## 🚀 下一步
