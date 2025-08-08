@@ -34,7 +34,7 @@ jobs:
     - name: Install Flutter
       uses: flutter-actions/setup-flutter@v2
       with:
-        version: '3.22.0'
+        version: '3.24.0'
 
     - name: Check Flutter & Dart version
       run: flutter --version
