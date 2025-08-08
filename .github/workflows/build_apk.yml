@@ -9,12 +9,18 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Remove old Flutter
       run: sudo rm -rf /opt/hostedtoolcache/flutter
@@ -28,7 +34,7 @@ jobs:
     - name: Install Flutter
       uses: flutter-actions/setup-flutter@v2
       with:
-        flutter-version: '3.22.0'
+        version: '3.22.0'
 
     - name: Check Flutter & Dart version
       run: flutter --version
@@ -72,5 +78,7 @@ jobs:
           
           ### 系统要求
           - Android 5.0+ (API 21)
+        draft: false
+        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
