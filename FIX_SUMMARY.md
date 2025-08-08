@@ -30,20 +30,20 @@ dev_dependencies:
   flutter_lints: ^4.0.0  # 从 ^5.0.0 降级
 ```
 
-### 2. 升级 Flutter 版本
+### 2. 使用稳定的 Flutter 版本
 ```yaml
 # .github/workflows/build_apk.yml
 - name: Install Flutter
   uses: flutter-actions/setup-flutter@v2
   with:
-    version: '3.28.0'  # 从 3.24.0 升级
+    version: '3.22.0'  # 使用稳定的版本
 ```
 
 ```yaml
 # .github/workflows/flutter_ci.yml
 - uses: subosito/flutter-action@v2
   with:
-    flutter-version: '3.28.0'  # 从 3.19.0 升级
+    flutter-version: '3.22.0'  # 使用稳定的版本
 ```
 
 ## 📊 版本兼容性表
@@ -51,9 +51,9 @@ dev_dependencies:
 | 组件 | 修复前 | 修复后 | 说明 |
 |------|--------|--------|------|
 | flutter_lints | ^5.0.0 | ^4.0.0 | 兼容Dart 3.3.0+ |
-| Flutter (build_apk.yml) | 3.24.0 | 3.28.0 | 包含更新的Dart SDK |
-| Flutter (flutter_ci.yml) | 3.19.0 | 3.28.0 | 统一版本 |
-| Dart SDK | 3.3.0 | 3.8.0+ | 满足flutter_lints要求 |
+| Flutter (build_apk.yml) | 3.24.0 | 3.22.0 | 使用稳定版本 |
+| Flutter (flutter_ci.yml) | 3.19.0 | 3.22.0 | 统一版本 |
+| Dart SDK | 3.3.0 | 3.3.0+ | 满足flutter_lints要求 |
 
 ## 🧪 测试结果
 
@@ -78,10 +78,10 @@ dev_dependencies:
    - 降级 `flutter_lints` 到 `^4.0.0`
 
 2. **.github/workflows/build_apk.yml**
-   - 升级 Flutter 到 `3.28.0`
+   - 使用稳定的 Flutter `3.22.0`
 
 3. **.github/workflows/flutter_ci.yml**
-   - 升级 Flutter 到 `3.28.0`
+   - 使用稳定的 Flutter `3.22.0`
 
 4. **pubspec.lock**
    - 自动更新以匹配新的依赖版本
