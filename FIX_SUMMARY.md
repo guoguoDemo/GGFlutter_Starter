@@ -19,6 +19,11 @@ So, because ggflutter_starter depends on intl ^0.20.2, version solving failed.
 Because device_info_plus 11.5.0 requires SDK version >=3.7.0 <4.0.0 and no versions of device_info_plus match >11.5.0 <12.0.0, device_info_plus ^11.5.0 is forbidden.
 ```
 
+以及permission_handler版本冲突：
+```
+Because permission_handler 12.0.1 requires SDK version ^3.5.0 and no versions of permission_handler match >12.0.1 <13.0.0, permission_handler ^12.0.1 is forbidden.
+```
+
 ## 🔍 问题分析
 
 1. **版本兼容性问题**：
@@ -31,6 +36,7 @@ Because device_info_plus 11.5.0 requires SDK version >=3.7.0 <4.0.0 and no versi
    - `flutter_lints`版本过高，不兼容当前的Dart SDK
    - `intl`版本冲突，Flutter SDK要求特定版本
    - `device_info_plus`版本过高，不兼容Dart 3.4.0
+   - `permission_handler`版本过高，不兼容Dart 3.4.0
 
 ## ✅ 修复方案
 
@@ -59,7 +65,14 @@ dependencies:
   device_info_plus: ^10.0.0  # 从 ^11.5.0 降级
 ```
 
-### 4. 使用稳定的 Flutter 版本
+### 4. 降级 `permission_handler` 版本
+```yaml
+# pubspec.yaml
+dependencies:
+  permission_handler: ^11.3.1  # 从 ^12.0.1 降级
+```
+
+### 5. 使用稳定的 Flutter 版本
 ```yaml
 # .github/workflows/build_apk.yml
 - name: Install Flutter
@@ -81,6 +94,7 @@ dependencies:
 |------|--------|--------|------|
 | flutter_lints | ^5.0.0 | ^4.0.0 | 兼容Dart 3.3.0+ |
 | device_info_plus | ^11.5.0 | ^10.0.0 | 兼容Dart 3.4.0+ |
+| permission_handler | ^12.0.1 | ^11.3.1 | 兼容Dart 3.4.0+ |
 | Flutter (build_apk.yml) | 3.24.0 | 3.22.0 | 使用稳定版本 |
 | Flutter (flutter_ci.yml) | 3.19.0 | 3.22.0 | 统一版本 |
 | Dart SDK | 3.3.0 | 3.3.0+ | 满足所有依赖要求 |
@@ -108,6 +122,7 @@ dependencies:
    - 降级 `flutter_lints` 到 `^4.0.0`
    - 移除显式 `intl` 依赖
    - 降级 `device_info_plus` 到 `^10.0.0`
+   - 降级 `permission_handler` 到 `^11.3.1`
 
 2. **lib/l10n/app_localizations.dart**
    - 移除未使用的 `intl` 导入
